@@ -1,0 +1,69 @@
+{% extends 'userboard/base.html' %}
+
+{% block title %} Student Hours {% endblock title %}
+
+{% block profile_active %} active {% endblock profile_active %}
+
+{% block content %}
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Edit Profile</h4>
+                    </div>
+                    <div class="content">
+                        <form>
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input disabled type="text" class="form-control" placeholder="Username"
+                                               value="{{ username }}">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input disabled type="email" class="form-control" placeholder="Email" value="{{ email }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control" placeholder="First Name" value="{{ first_name }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control" placeholder="Last Name" value="{{ last_name }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock content %}
