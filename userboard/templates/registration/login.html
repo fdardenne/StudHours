@@ -101,11 +101,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 </style>
-{% if user.is_authenticate %}
+{% if user.is_authenticated %}
 <head>
 
-<meta http-equiv="refresh" content="0; URL='http://new-website.com'" />
+<meta http-equiv="refresh" content="0; URL='{%url 'userboard' %}" />
 </head>
+Redirecting...
   {% else %}
 <div class="login-page">
   <div class="form">
