@@ -1,7 +1,10 @@
 from django.shortcuts import render
+from .models import Work, WorkHour
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
+@login_required
 def userboard(request):
     moneys = [100,0,110,90,0,0,0,70,100,105,0,110,110,90,80,100,0,70,100,105,100,0,110,0,80,100,120,0,100,105]
     context = {
@@ -11,4 +14,7 @@ def userboard(request):
         'day': range(1,31),
         'money': moneys,
     }
-    return render(request, 'userboard/index.html', context)
+    return render(request, 'userboard/dashboard.html', context)
+
+def homepage(request):
+    return render(request, 'userboard/homepage.html')
