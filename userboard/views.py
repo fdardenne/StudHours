@@ -35,35 +35,43 @@ def profile(request):
 
 @login_required
 def work(request):
+    work_list = Work.objects.filter(user=request.user)
+    flag = ''
     if request.method == "POST":
-        print(request.POST.get('name'))
-        print((Work.objects.filter(user = request.user)))
-        context = {}
-        if len(Work.objects.filter(user = request.user)) == 0:
-            work = Work(user=request.user, name=request.POST.get('name'),
+        if len(work_list) == 0:
+
+            new_work = Work(user=request.user, name=request.POST.get('name'),
                         salary=request.POST.get('price'),
                         tax_percent=request.POST.get('tax'),
                         extra_public_holiday_percent=request.POST.get('holiday'),
                         extra_per_day=request.POST.get('extra'),
                         extra_additional_hour_percent = request.POST.get('extra_add'))
-            work.save()
+            new_work.save()
+            flag = 'created'
 
         else:
-            #TODO NOTIFY THE USER
-            work = Work.objects.get(user=request.user)
-            context = {'name': work.name, 'salary': work.salary,
-                       'tax': work.tax_percent, 'extra_public_holiday': work.extra_public_holiday_percent,
-                       'extra_day': work.extra_per_day, }
+            work_modified = Work.objects.get(user=request.user)
+            work_modified.name =request.POST.get('name')
+            work_modified.salary = request.POST.get('price')
+            work_modified.tax_percent =  request.POST.get('tax')
+            work_modified.extra_public_holiday_percent = request.POST.get('holiday')
+            work_modified.extra_per_day = request.POST.get('extra')
+            work_modified.extra_additional_hour_percent = request.POST.get('extra_add')
+            work_modified.save()
+            flag = 'modified'
 
-            work.name =request.POST.get('name')
-            work.salary = request.POST.get('price')
-            work.tax_percent =  request.POST.get('tax')
-            work.extra_public_holiday_percent = request.POST.get('holiday')
-            work.extra_per_day = request.POST.get('extra')
-            work.extra_additional_hour_percent = request.POST.get('extra_add')
-            work.save()
-
-
+    try:
+        work = Work.objects.filter(user=request.user)[0]
+        context = {'name': work.name,
+                    'salary': work.salary,
+                    'tax': work.tax_percent,
+                    'extra_public_holiday': work.extra_public_holiday_percent,
+                    'extra_additional_hour': work.extra_additional_hour_percent,
+                    'extra_day': work.extra_per_day,
+                    'flag': flag,
+                    }
+    except:
+        context = {}
     return render(request, 'userboard/work.html', context)
 
 def homepage(request):
