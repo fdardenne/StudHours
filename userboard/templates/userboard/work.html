@@ -1,0 +1,93 @@
+{% extends 'userboard/base.html' %}
+
+{% block title %} Student Hours {% endblock title %}
+
+{% block work_active %} active {% endblock work_active %}
+
+
+{% block content %}
+
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">My Work</h4>
+                    </div>
+                    <div class="content">
+                        <form id="form-group" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input type="text" id="name" name="name" class="form-control" placeholder="Name"
+                                               value="{{ name}}">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Hour salary</label>
+                                        <input type="number" required name="price" min="0" value="0" step="0.1">
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Extra per day</label>
+                                        <input type="number" required name="extra" min="0" value="0" step="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Extra additional hour</label>
+                                        <input type="number" required name="extra_add" min="0" value="0" step="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Public holiday bonus percent</label>
+                                        <input type="number" required name="holiday" min="0" value="0" step="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>tax percent</label>
+                                        <input type="number" required name="tax" min="0" value="0" step="1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-info btn-fill pull-right">Update Work</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock content %}

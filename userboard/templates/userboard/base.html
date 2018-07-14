@@ -63,8 +63,8 @@
                         <p>Working hours</p>
                     </a>
                 </li>
-                <li>
-                    <a href="typography.html">
+                <li class="{% block work_active %} {% endblock work_active %}">
+                    <a href="{% url 'work' %}">
                         <i class="pe-7s-portfolio"></i>
                         <p>My Work</p>
                     </a>

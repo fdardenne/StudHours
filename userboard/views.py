@@ -33,6 +33,39 @@ def profile(request):
     }
     return render(request, 'userboard/user.html', information)
 
+@login_required
+def work(request):
+    if request.method == "POST":
+        print(request.POST.get('name'))
+        print((Work.objects.filter(user = request.user)))
+        context = {}
+        if len(Work.objects.filter(user = request.user)) == 0:
+            work = Work(user=request.user, name=request.POST.get('name'),
+                        salary=request.POST.get('price'),
+                        tax_percent=request.POST.get('tax'),
+                        extra_public_holiday_percent=request.POST.get('holiday'),
+                        extra_per_day=request.POST.get('extra'),
+                        extra_additional_hour_percent = request.POST.get('extra_add'))
+            work.save()
+
+        else:
+            #TODO NOTIFY THE USER
+            work = Work.objects.get(user=request.user)
+            context = {'name': work.name, 'salary': work.salary,
+                       'tax': work.tax_percent, 'extra_public_holiday': work.extra_public_holiday_percent,
+                       'extra_day': work.extra_per_day, }
+
+            work.name =request.POST.get('name')
+            work.salary = request.POST.get('price')
+            work.tax_percent =  request.POST.get('tax')
+            work.extra_public_holiday_percent = request.POST.get('holiday')
+            work.extra_per_day = request.POST.get('extra')
+            work.extra_additional_hour_percent = request.POST.get('extra_add')
+            work.save()
+
+
+    return render(request, 'userboard/work.html', context)
+
 def homepage(request):
     return render(request, 'userboard/homepage.html')
 
