@@ -95,4 +95,8 @@ def signup(request):
         form = SignUpForm()
         return render(request, 'registration/signup.html', {'form': form})
 
+@login_required
+def hour(request):
+    return render(request, 'userboard/hours.html')
+
 

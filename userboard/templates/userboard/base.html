@@ -24,6 +24,7 @@
 
 
 
+
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
@@ -55,8 +56,8 @@
                         <p>User Profile</p>
                     </a>
                 </li>
-                <li>
-                    <a href="table.html">
+                <li class="{% block hour_active %} {% endblock hour_active %}">
+                    <a href="{% url 'hour' %}">
                         <i class="pe-7s-note2"></i>
                         <p>Working hours</p>
                     </a>
@@ -107,7 +108,7 @@
                     </button>
                     <a class="navbar-brand" href="#">Dashboard</a>
                 </div>
-                <div class="collapse navbar-collapse">
+                <div class="collapse navbar-collapse" id="navigation-example-2">
                     <ul class="nav navbar-nav navbar-left">
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -172,7 +173,8 @@
 
     </div>
 </div>
-
+{% block endbody %}
+{% endblock endbody %}
 </body>
 
     <!--   Core JS Files   -->
@@ -184,5 +186,7 @@
 
     <!--  Notifications Plugin    -->
     <script src="{% static 'userboard/assets/js/bootstrap-notify.js' %}"></script>
+
+
 
 </html>
