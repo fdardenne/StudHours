@@ -9,9 +9,28 @@ import calendar
 
 @login_required
 def userboard(request):
-    moneys = [100,11,110,90,22,33,44,70,100,105,0,110,110,90,80,100,0,70,100,105,100,0,110,0,80,100,120,0,100,105]
-    maxdays = calendar.monthrange(datetime.datetime.now().date().year, datetime.datetime.now().date().month)
-    week_day = maxdays[0]
+
+    day_max = calendar.monthrange(datetime.datetime.now().date().year, datetime.datetime.now().date().month)[1]
+
+    user = request.user
+    work = Work.objects.get(user=user)
+    workhour_month_list = WorkHour.objects.filter(work=work, beginning_date__month=datetime.datetime.now().date().month)
+
+    moneys = [0] * day_max
+
+    total_money = 0
+    total_hours = 0
+
+    for workhour in workhour_month_list:
+        day = workhour.beginning_date.date().day
+        time_worked = float((workhour.end_date - workhour.beginning_date).seconds) / 3600
+        money_earned = time_worked * float(work.salary)
+
+        total_hours += time_worked
+        total_money += round(time_worked * float(work.salary),2)
+        moneys[day-1] += round(money_earned, 2)
+
+
 
     color_template = ["rgba(255, 99, 132, 0.2)",
                       "rgba(54, 162, 235, 0.2)",
@@ -34,24 +53,26 @@ def userboard(request):
     color = []
     border_color = []
 
-    for x in range(maxdays[1]):
+    first_day_week = calendar.monthrange(datetime.datetime.now().date().year, datetime.datetime.now().date().month)[0]
+
+    #BUILD CONTEXT
+    for x in range(day_max):
         label.append(x+1)
-        week_day = 0 if week_day == 7 else week_day
 
-        color.append(color_template[week_day])
-        border_color.append(border_color_template[week_day])
-        week_day += 1
-
-
-
-
+        first_day_week = 0 if first_day_week == 7 else first_day_week
+        color.append(color_template[first_day_week])
+        border_color.append(border_color_template[first_day_week])
+        first_day_week += 1
 
     context = {
         'day': label,
         'money': moneys,
         'color': color,
         'border_color': border_color,
+        'total_money': total_money,
+        'total_hours': total_hours
     }
+
     return render(request, 'userboard/dashboard.html', context)
 
 @login_required

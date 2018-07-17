@@ -7,6 +7,29 @@
 {% block content %}
 <div class="content">
     <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-xl-6 col-sm-6 mb-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h2 class="panel-title"> Total money earned this month:</h2>
+                    </div>
+                    <div class="panel-body">{{ total_money }} €</div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-sm-6 mb-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h2 class="panel-title"> Total hours of work this month:</h2>
+                    </div>
+                    <div class="panel-body">{{ total_hours }} h</div>
+                </div>
+            </div>
+
+
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -43,6 +66,8 @@
                                         }
                                 }
                             });
+
+
                         </script>
 
 
