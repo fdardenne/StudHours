@@ -4,17 +4,53 @@ from .models import Work, WorkHour
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 import datetime
+import calendar
 # Create your views here.
 
 @login_required
 def userboard(request):
-    moneys = [100,0,110,90,0,0,0,70,100,105,0,110,110,90,80,100,0,70,100,105,100,0,110,0,80,100,120,0,100,105]
+    moneys = [100,11,110,90,22,33,44,70,100,105,0,110,110,90,80,100,0,70,100,105,100,0,110,0,80,100,120,0,100,105]
+    maxdays = calendar.monthrange(datetime.datetime.now().date().year, datetime.datetime.now().date().month)
+    week_day = maxdays[0]
+
+    color_template = ["rgba(255, 99, 132, 0.2)",
+                      "rgba(54, 162, 235, 0.2)",
+                      "rgba(255, 206, 86, 0.2)",
+                      "rgba(75, 192, 192, 0.2)",
+                      "rgba(153, 102, 255, 0.2)",
+                      "rgba(255, 159, 64, 0.2)",
+                      "rgba(244, 66, 244,0.2)"]
+
+    border_color_template = ['rgba(255,99,132,1)',
+                             'rgba(54, 162, 235, 1)',
+                             'rgba(255, 206, 86, 1)',
+                             'rgba(75, 192, 192, 1)',
+                             'rgba(153, 102, 255, 1)',
+                             'rgba(255, 159, 64, 1)',
+                             'rgba(244, 66, 244, 1)',
+                             ]
+
+    label = []
+    color = []
+    border_color = []
+
+    for x in range(maxdays[1]):
+        label.append(x+1)
+        week_day = 0 if week_day == 7 else week_day
+
+        color.append(color_template[week_day])
+        border_color.append(border_color_template[week_day])
+        week_day += 1
+
+
+
+
+
     context = {
-        'id': 1,
-        'total_month_money': sum(moneys),
-        'total_month_hours':120,
-        'day': range(1,31),
+        'day': label,
         'money': moneys,
+        'color': color,
+        'border_color': border_color,
     }
     return render(request, 'userboard/dashboard.html', context)
 
@@ -130,7 +166,8 @@ def hour(request):
     for hours in workhours_list:
         context_list.append({
             'beginning_date':hours.beginning_date.strftime("%d/%m/%y %H:%M"),
-            'end_date':hours.end_date.strftime("%d/%m/%y %H:%M")
+            'end_date':hours.end_date.strftime("%d/%m/%y %H:%M"),
+            'time': float((hours.end_date-hours.beginning_date).seconds)/3600,
         })
 
     context = {'workhours_list': context_list}
