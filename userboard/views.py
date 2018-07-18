@@ -73,7 +73,9 @@ def userboard(request):
     try:
         user = request.user
         work = Work.objects.get(user=user)
-        workhour_month_list = WorkHour.objects.filter(work=work, beginning_date__month=datetime.datetime.now().date().month)
+        workhour_month_list = WorkHour.objects.filter(work=work,
+                                                      beginning_date__month=datetime.datetime.now().date().month,
+                                                      beginning_date__year= datetime.datetime.now().date().year)
 
         moneys = [0] * day_max
         total_money = 0
