@@ -5,17 +5,40 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 import datetime
 import calendar
-# Create your views here.
+
+
+# Reveal.js welcome page
+def homepage(request):
+    return render(request, 'userboard/homepage.html')
+
+
+#Registration page
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('userboard')
+        return render(request, 'registration/signup.html', {'form': form})
+
+    else:
+        form = SignUpForm()
+        return render(request, 'registration/signup.html', {'form': form})
+
 
 @login_required
 def userboard(request):
 
     # init variables
-    day_max = calendar.monthrange(datetime.datetime.now().date().year, datetime.datetime.now().date().month)[1]
+    first_day_week, day_max = calendar.monthrange(datetime.datetime.now().date().year, datetime.datetime.now().date().month)
+
     label = []
     color = []
     border_color = []
-    first_day_week = calendar.monthrange(datetime.datetime.now().date().year, datetime.datetime.now().date().month)[0]
 
     color_template = ['rgba(255, 99, 132, 0.2)',
                       'rgba(54, 162, 235, 0.2)',
@@ -35,9 +58,10 @@ def userboard(request):
                              ]
 
     # build chart label / color / border color
-    for x in range(day_max):
-        label.append(x + 1)
+    for day_number in range(1, day_max+1):
+        label.append(day_number)
 
+        #for the color
         first_day_week = 0 if first_day_week == 7 else first_day_week
         color.append(color_template[first_day_week])
         border_color.append(border_color_template[first_day_week])
@@ -46,14 +70,12 @@ def userboard(request):
 
 
     # get database information
-
     try:
         user = request.user
         work = Work.objects.get(user=user)
         workhour_month_list = WorkHour.objects.filter(work=work, beginning_date__month=datetime.datetime.now().date().month)
 
         moneys = [0] * day_max
-
         total_money = 0
         total_hours = 0
 
@@ -77,30 +99,25 @@ def userboard(request):
 
         return render(request, 'userboard/dashboard.html', context)
 
-    except Exception as e:
-        print(e)
+    except:
         return render(request, 'userboard/dashboard.html', {'day': label, 'money': [], 'color':color, 'border_color': border_color, 'total_money': 0, 'total_hours': 0})
 
 
 @login_required
 def profile(request):
     user = request.user
-    name = user.username
-    email = user.email
-    first_name = user.first_name
-    last_name = user.last_name
-
     information = {
-        'username': name,
-        'email': email,
-        'first_name': first_name,
-        'last_name': last_name,
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
     }
     return render(request, 'userboard/user.html', information)
 
+
 @login_required
 def work(request):
-    #TODO Verify the form
+    # TODO: Verify the form
     work_list = Work.objects.filter(user=request.user)
     flag = ''
     if request.method == 'POST':
@@ -133,36 +150,14 @@ def work(request):
                     'extra_day': work.extra_per_day,
                     'flag': flag,
                     }
-    except Exception as e:
-        print(e)
+    except:
         context = {}
     return render(request, 'userboard/work.html', context)
 
-def homepage(request):
-    return render(request, 'userboard/homepage.html')
-
-
-
-def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('userboard')
-        return render(request, 'registration/signup.html', {'form': form})
-
-    else:
-        form = SignUpForm()
-        return render(request, 'registration/signup.html', {'form': form})
 
 @login_required
 def hour(request):
-    #TODO VERIFY THE FORM
-
+    # TODO: Verify the form
     user = request.user
     try:
         work = Work.objects.get(user=user)
@@ -170,16 +165,15 @@ def hour(request):
         return render(request, 'userboard/hours.html', {'flag': 'error'})
 
     if request.method == 'POST':
-
+        # getting the POST information
         is_public_holiday = request.POST.get('public_holiday')
         pause = request.POST.get('pause')
-        duration_pause = datetime.timedelta(minutes=int(pause))
         begin_date_hour_list = request.POST.get('beginning').split('T')
+
+        # formating data
+        duration_pause = datetime.timedelta(minutes=int(pause))
         begin_date_list = begin_date_hour_list[0].split('-')
         begin_hour_list = begin_date_hour_list[1].split(':')
-
-        print(is_public_holiday)
-
 
         end_date_hour_list = request.POST.get('end').split('T')
         end_date_list = end_date_hour_list[0].split('-')
@@ -193,26 +187,25 @@ def hour(request):
                                      year=int(end_date_list[0]), minute=int(end_hour_list[1]),
                                      hour=int(end_hour_list[0]))
 
-        salary_earned = round((float((end_date-begin_date).seconds)/3600) * float(work.salary),2)
+        salary_earned = round((float((end_date - begin_date).seconds) / 3600) * float(work.salary), 2)
 
-        new_hour = WorkHour(work=work, beginning_date=begin_date, end_date=end_date, salary_earned= salary_earned,
+        # Creating and saving the object
+        new_hour = WorkHour(work=work, beginning_date=begin_date, end_date=end_date, salary_earned=salary_earned,
                             public_holiday=is_public_holiday,
                             pause_duration=duration_pause)
         new_hour.save()
 
+    # Show table
     workhours_list = WorkHour.objects.filter(work=work)
     context_list = []
 
     for hours in workhours_list:
         context_list.append({
-            'beginning_date':hours.beginning_date.strftime('%d/%m/%y %H:%M'),
-            'end_date':hours.end_date.strftime('%d/%m/%y %H:%M'),
-            'time': round(float((hours.end_date-hours.beginning_date).seconds)/3600, 2),
+            'beginning_date': hours.beginning_date.strftime('%d/%m/%y %H:%M'),
+            'end_date': hours.end_date.strftime('%d/%m/%y %H:%M'),
+            'time': round(float((hours.end_date - hours.beginning_date).seconds) / 3600, 2),
             'salary': hours.salary_earned,
             'pause': hours.pause_duration
         })
 
-
-
-    return render(request,'userboard/hours.html',{'workhours_list': context_list})
-
+    return render(request, 'userboard/hours.html', {'workhours_list': context_list})
