@@ -83,7 +83,7 @@ def userboard(request):
 
         for workhour in workhour_month_list:
             day = workhour.beginning_date.date().day
-            time_worked = float((workhour.end_date - workhour.beginning_date).seconds) / 3600
+            time_worked = float((workhour.end_date - workhour.beginning_date - workhour.pause_duration).seconds) / 3600
             money_earned = float(round(workhour.salary_earned, 2))
 
             total_hours += time_worked
@@ -189,7 +189,7 @@ def hour(request):
                                      year=int(end_date_list[0]), minute=int(end_hour_list[1]),
                                      hour=int(end_hour_list[0]))
 
-        salary_earned = round((float((end_date - begin_date).seconds) / 3600) * float(work.salary), 2)
+        salary_earned = round((float((end_date - begin_date - duration_pause).seconds) / 3600) * float(work.salary), 2)
 
         # Creating and saving the object
         new_hour = WorkHour(work=work, beginning_date=begin_date, end_date=end_date, salary_earned=salary_earned,
@@ -205,7 +205,7 @@ def hour(request):
         context_list.append({
             'beginning_date': hours.beginning_date.strftime('%d/%m/%y %H:%M'),
             'end_date': hours.end_date.strftime('%d/%m/%y %H:%M'),
-            'time': round(float((hours.end_date - hours.beginning_date).seconds) / 3600, 2),
+            'time': round(float((hours.end_date - hours.beginning_date - hours.pause_duration).seconds) / 3600, 2),
             'salary': hours.salary_earned,
             'pause': hours.pause_duration
         })
