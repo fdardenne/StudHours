@@ -77,9 +77,14 @@ def userboard(request):
                                                       beginning_date__month=datetime.datetime.now().date().month,
                                                       beginning_date__year= datetime.datetime.now().date().year)
 
+
         moneys = [0] * day_max
         total_money = 0
         total_hours = 0
+
+        money_per_month = [0]*12
+        total_money_year = 0
+        total_hours_year = 0
 
         for workhour in workhour_month_list:
             day = workhour.beginning_date.date().day
@@ -90,13 +95,37 @@ def userboard(request):
             total_money += money_earned
             moneys[day-1] += money_earned
 
+
+        temps_total_money = 0
+        for month in range(12):
+            temp_workhour_month_list = WorkHour.objects.filter(work=work, beginning_date__month=month,
+                                                               beginning_date__year =datetime.datetime.now().date().year)
+
+            for workhour in temp_workhour_month_list:
+                time_worked = float(
+                    (workhour.end_date - workhour.beginning_date - workhour.pause_duration).seconds) / 3600
+                money_earned = float(round(workhour.salary_earned, 2))
+
+                temps_total_money += money_earned
+
+                total_money_year += money_earned
+                total_hours_year += time_worked
+
+            money_per_month[month-1] = temps_total_money
+            temps_total_money = 0
+
+
+
+
+
         context = {
             'day': label,
             'money': moneys,
             'color': color,
             'border_color': border_color,
-            'total_money': total_money,
-            'total_hours': total_hours
+            'total_money': round(total_money,2),
+            'total_hours': round(total_hours,2),
+            'months_money': money_per_month
         }
 
         return render(request, 'userboard/dashboard.html', context)
@@ -160,6 +189,7 @@ def work(request):
 @login_required
 def hour(request):
     # TODO: Verify the form
+    # TODO: Delete button
     user = request.user
     try:
         work = Work.objects.get(user=user)

@@ -30,6 +30,9 @@
 
 
         </div>
+
+         <!-- THIS MONTH -->
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -38,12 +41,12 @@
                         <p class="category">Working hours this month</p>
                     </div>
                     <div class="content">
-                        <canvas id="myChart" width="400" height="150"></canvas>
+                        <canvas id="thisMonth" width="400" height="150"></canvas>
 
-                        <!-- THIS MONTH SCRIPT -->
+
                         <script>
-                            var ctx = document.getElementById("myChart").getContext('2d');
-                            var myChart = new Chart(ctx, {
+                            var ctx = document.getElementById("thisMonth").getContext('2d');
+                            var thisMonth = new Chart(ctx, {
                                 type: 'bar',
 
                                 data: {
@@ -90,6 +93,58 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- THIS YEAR -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">This Year</h4>
+                        <p class="category">Salary month by month</p>
+                    </div>
+                    <div class="content">
+                        <canvas id="thisYear" width="400" height="150"></canvas>
+
+                        <script>
+                            var ctx = document.getElementById("thisYear").getContext('2d');
+                            var thisYear = new Chart(ctx, {
+                                type: 'bar',
+
+                                data: {
+                                        labels: ['January', 'February', 'March', 'April',
+                                        'May', 'June', 'July', 'September', 'October',
+                                        'November', 'December'],
+
+                                        datasets: [{
+                                                label: '€ this month',
+                                                data: {{ months_money }},
+                                                backgroundColor: {{ color|safe }},
+                                                borderColor: {{ border_color|safe }} ,
+                                                borderWidth: 0.8
+                                        }]
+                                },
+                                options: {
+                                        scales: {
+                                                yAxes: [{
+                                                        ticks: {
+                                                                beginAtZero:true
+                                                        }
+                                                }]
+                                        }
+                                }
+                            });
+
+
+                        </script>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- END YEAR -->
 
 
         <div class="row">
