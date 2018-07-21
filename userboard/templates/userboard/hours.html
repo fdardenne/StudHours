@@ -13,6 +13,7 @@
             <div class="col-md-12">
                 <div class="card">
 
+
                     <div class="header">
                         {% if flag == "error" %}
                         <div class="alert alert-danger">
@@ -22,7 +23,8 @@
                         <h4 class="title">My Hours</h4>
                         <br>
                         {% if flag == "error" %}
-                        <button disabled type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add
+                        <button disabled type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#myModal">Add
                         </button>
                         {% else %}
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add
@@ -50,8 +52,10 @@
                                 <td>{{ hour.time }}</td>
                                 <td>{{ hour.salary }}</td>
 
-                                <td><button type="button" class="btn btn-primary">Edit</button>
-                                <button type="button" class="btn btn-danger">Delete</button></td>
+                                <td>
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </td>
                             </tr>
                             {% endfor %}
                             </tbody>
@@ -70,6 +74,7 @@
 {% block endbody %}
 
 <!-- Modal -->
+{% if flag != "error" %}
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
@@ -86,7 +91,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Beginning</label>
-                                <input type="datetime-local" id="beginning" name="beginning" class="form-control">
+                                <input type="datetime-local" id="beginning" name="beginning" class="form-control"
+                                       required>
                             </div>
                         </div>
                     </div>
@@ -95,7 +101,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>End</label>
-                                <input type="datetime-local" id="end" name="end" class="form-control">
+                                <input type="datetime-local" id="end" name="end" class="form-control" required>
                             </div>
                         </div>
                     </div>
@@ -104,7 +110,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Pause (in minute)</label>
-                                <input type="number" id="pause" value="0" name="pause" class="form-control" required>
+                                <input type="number" id="pause" value="0" name="pause" min="0" class="form-control" required>
                             </div>
                         </div>
                     </div>
@@ -112,15 +118,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Public holiday</label>
-                                <select name="public_holiday">
-                                    <option value="False">No</option>
-                                    <option  value="True">Yes</option>
-                                </select>
+                                <label for="public_holiday">Is a public holiday: </label>
+                                <input type="checkbox" id="public_holiday" name="public_holiday"
+                                       value="True"/>
+
                             </div>
                         </div>
                     </div>
-
 
                     <button type="submit" class="btn btn-info btn-fill pull-right">Update Work</button>
                     <div class="clearfix"></div>
@@ -133,5 +137,6 @@
 
     </div>
 </div>
+{% endif %}
 
 {% endblock endbody %}

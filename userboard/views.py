@@ -188,7 +188,6 @@ def work(request):
 
 @login_required
 def hour(request):
-    # TODO: Verify the form
     # TODO: Delete button
     user = request.user
     try:
@@ -197,34 +196,52 @@ def hour(request):
         return render(request, 'userboard/hours.html', {'flag': 'error'})
 
     if request.method == 'POST':
+        is_valid = True
+
         # getting the POST information
-        is_public_holiday = request.POST.get('public_holiday')
-        pause = request.POST.get('pause')
-        begin_date_hour_list = request.POST.get('beginning').split('T')
+        try:
 
-        # formating data
-        duration_pause = datetime.timedelta(minutes=int(pause))
-        begin_date_list = begin_date_hour_list[0].split('-')
-        begin_hour_list = begin_date_hour_list[1].split(':')
+            is_public_holiday = request.POST.get('public_holiday')
+            if is_public_holiday and is_public_holiday != "True":
+                is_valid = False
+            elif not is_public_holiday:
+                is_public_holiday = "False"
+            else:
+                is_valid = "False"
+            pause = request.POST.get('pause')
 
-        end_date_hour_list = request.POST.get('end').split('T')
-        end_date_list = end_date_hour_list[0].split('-')
-        end_hour_list = end_date_hour_list[1].split(':')
+            if int(pause) < 0:
+                is_valid = False
 
-        begin_date = datetime.datetime(day=int(begin_date_list[2]), month=int(begin_date_list[1]),
-                                       year=int(begin_date_list[0]), minute=int(begin_hour_list[1]),
-                                       hour=int(begin_hour_list[0]))
+            begin_date_hour_list = request.POST.get('beginning').split('T')
+            end_date_hour_list = request.POST.get('end').split('T')
 
-        end_date = datetime.datetime(day=int(end_date_list[2]), month=int(end_date_list[1]),
-                                     year=int(end_date_list[0]), minute=int(end_hour_list[1]),
-                                     hour=int(end_hour_list[0]))
+            # formating data
+            duration_pause = datetime.timedelta(minutes=int(pause))
+            begin_date_list = begin_date_hour_list[0].split('-')
+            begin_hour_list = begin_date_hour_list[1].split(':')
+
+            end_date_list = end_date_hour_list[0].split('-')
+            end_hour_list = end_date_hour_list[1].split(':')
 
 
+            begin_date = datetime.datetime(day=int(begin_date_list[2]), month=int(begin_date_list[1]),
+                                           year=int(begin_date_list[0]), minute=int(begin_hour_list[1]),
+                                           hour=int(begin_hour_list[0]))
+
+            end_date = datetime.datetime(day=int(end_date_list[2]), month=int(end_date_list[1]),
+                                        year=int(end_date_list[0]), minute=int(end_hour_list[1]),
+                                        hour=int(end_hour_list[0]))
+        except:
+            is_valid = False
+
+        if not is_valid:
+            return redirect('hour')
 
         salary_earned = round((float((end_date - begin_date - duration_pause).seconds) / 3600) * float(work.salary), 2)
         if is_public_holiday:
             salary_earned += salary_earned * float(work.extra_public_holiday_percent/100)
-        salary_earned += float(work.extra_per_day) 
+        salary_earned += float(work.extra_per_day)
         # Creating and saving the object
         new_hour = WorkHour(work=work, beginning_date=begin_date, end_date=end_date, salary_earned=salary_earned,
                             public_holiday=is_public_holiday,
