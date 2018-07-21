@@ -131,7 +131,7 @@ def userboard(request):
         return render(request, 'userboard/dashboard.html', context)
 
     except:
-        return render(request, 'userboard/dashboard.html', {'day': label, 'money': [], 'color':color, 'border_color': border_color, 'total_money': 0, 'total_hours': 0})
+        return render(request, 'userboard/dashboard.html', {'day': label, 'money': [], 'color':color, 'border_color': border_color, 'total_money': 0, 'total_hours': 0, 'months_money':[]})
 
 
 @login_required
@@ -219,8 +219,12 @@ def hour(request):
                                      year=int(end_date_list[0]), minute=int(end_hour_list[1]),
                                      hour=int(end_hour_list[0]))
 
-        salary_earned = round((float((end_date - begin_date - duration_pause).seconds) / 3600) * float(work.salary), 2)
 
+
+        salary_earned = round((float((end_date - begin_date - duration_pause).seconds) / 3600) * float(work.salary), 2)
+        if is_public_holiday:
+            salary_earned += salary_earned * float(work.extra_public_holiday_percent/100)
+        salary_earned += float(work.extra_per_day) 
         # Creating and saving the object
         new_hour = WorkHour(work=work, beginning_date=begin_date, end_date=end_date, salary_earned=salary_earned,
                             public_holiday=is_public_holiday,

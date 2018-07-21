@@ -21,8 +21,14 @@
                         {% endif %}
                         <h4 class="title">My Hours</h4>
                         <br>
+                        {% if flag == "error" %}
+                        <button disabled type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add
+                        </button>
+                        {% else %}
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add
                         </button>
+                        {% endif %}
+
                     </div>
 
 
@@ -43,8 +49,9 @@
                                 <td>{{ hour.pause }}</td>
                                 <td>{{ hour.time }}</td>
                                 <td>{{ hour.salary }}</td>
-                                <td><button type="button" class="btn btn-danger">Delete
-                        </button></td>
+
+                                <td><button type="button" class="btn btn-primary">Edit</button>
+                                <button type="button" class="btn btn-danger">Delete</button></td>
                             </tr>
                             {% endfor %}
                             </tbody>
