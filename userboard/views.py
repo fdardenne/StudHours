@@ -202,7 +202,7 @@ def hour(request):
         try:
 
             is_public_holiday = request.POST.get('public_holiday')
-            
+
             if is_public_holiday and is_public_holiday != "True":
                 is_valid = False
             elif not is_public_holiday:
@@ -249,6 +249,14 @@ def hour(request):
                             pause_duration=duration_pause)
         new_hour.save()
 
+    if request.GET.get("Delete"):
+        wkh= WorkHour.objects.get(pk=int(request.GET.get('id')))
+        if wkh.work.user == user:
+            wkh.delete()
+
+        return redirect('hour')
+
+
     # Show table
     workhours_list = WorkHour.objects.filter(work=work)
     context_list = []
@@ -259,7 +267,8 @@ def hour(request):
             'end_date': hours.end_date.strftime('%d/%m/%y %H:%M'),
             'time': round(float((hours.end_date - hours.beginning_date - hours.pause_duration).seconds) / 3600, 2),
             'salary': hours.salary_earned,
-            'pause': hours.pause_duration
+            'pause': hours.pause_duration,
+            'id': hours.pk
         })
 
     return render(request, 'userboard/hours.html', {'workhours_list': context_list})

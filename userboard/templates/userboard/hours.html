@@ -53,8 +53,12 @@
                                 <td>{{ hour.salary }}</td>
 
                                 <td>
-                                    <button type="button" class="btn btn-primary">Edit</button>
-                                    <button type="button" class="btn btn-danger">Delete</button>
+                                    <form action="#" method="get">
+                                        <input type="hidden" value="{{ hour.id }}" name="id"/>
+                                        <button type="submit" value="edit" class="btn btn-primary" name="Edit">Edit</button>
+                                        <button type="submit" value="delete" class="btn btn-danger" name="Delete">Delete</button>
+                                    </form>
+
                                 </td>
                             </tr>
                             {% endfor %}
