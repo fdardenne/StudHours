@@ -202,12 +202,14 @@ def hour(request):
         try:
 
             is_public_holiday = request.POST.get('public_holiday')
+            
             if is_public_holiday and is_public_holiday != "True":
                 is_valid = False
             elif not is_public_holiday:
-                is_public_holiday = "False"
+                is_public_holiday = False
             else:
-                is_valid = "False"
+                is_public_holiday = True
+
             pause = request.POST.get('pause')
 
             if int(pause) < 0:
@@ -224,14 +226,13 @@ def hour(request):
             end_date_list = end_date_hour_list[0].split('-')
             end_hour_list = end_date_hour_list[1].split(':')
 
-
             begin_date = datetime.datetime(day=int(begin_date_list[2]), month=int(begin_date_list[1]),
                                            year=int(begin_date_list[0]), minute=int(begin_hour_list[1]),
                                            hour=int(begin_hour_list[0]))
 
             end_date = datetime.datetime(day=int(end_date_list[2]), month=int(end_date_list[1]),
-                                        year=int(end_date_list[0]), minute=int(end_hour_list[1]),
-                                        hour=int(end_hour_list[0]))
+                                         year=int(end_date_list[0]), minute=int(end_hour_list[1]),
+                                         hour=int(end_hour_list[0]))
         except:
             is_valid = False
 
