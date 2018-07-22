@@ -258,7 +258,7 @@ def hour(request):
 
 
     # Show table
-    workhours_list = WorkHour.objects.filter(work=work)
+    workhours_list = WorkHour.objects.filter(work=work).order_by('-beginning_date')
     context_list = []
 
     for hours in workhours_list:
