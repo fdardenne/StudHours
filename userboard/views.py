@@ -7,6 +7,14 @@ import datetime
 import calendar
 
 
+def handler404(request):
+    print("4004")
+    return render(request, 'error/404.html', status=404)
+
+
+def handler500(request):
+    return render(request, 'error/404.html', status=500)
+
 # Reveal.js welcome page
 def homepage(request):
     return render(request, 'userboard/homepage.html')

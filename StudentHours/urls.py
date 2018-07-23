@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from userboard import views
-from django.contrib.auth import views as auth_views
-from django.conf.urls import url
+
+
+handler404 = views.handler404
+handler500 = views.handler500
 
 urlpatterns = [
     path('', views.homepage, name="homepage"),
@@ -28,3 +30,5 @@ urlpatterns = [
 
 
 ]
+
+

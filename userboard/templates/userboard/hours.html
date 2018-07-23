@@ -38,25 +38,25 @@
                         <table class="table table-hover table-striped">
                             <thead>
                             <th>Beginning Date</th>
-                            <th>End Date</th>
-                            <th>Pause</th>
-                            <th>Total Hours</th>
+                            <th class="hidden-xs">End Date</th>
+                            <th class="hidden-xs">Pause</th>
+                            <th class="hidden-xs">Total Hours</th>
                             <th>Salary</th>
                             </thead>
                             <tbody>
                             {% for hour in workhours_list %}
                             <tr>
                                 <td>{{ hour.beginning_date }}</td>
-                                <td>{{ hour.end_date }}</td>
-                                <td>{{ hour.pause }}</td>
-                                <td>{{ hour.time }}</td>
+                                <td class="hidden-xs">{{ hour.end_date }}</td>
+                                <td class="hidden-xs">{{ hour.pause }}</td>
+                                <td class="hidden-xs">{{ hour.time }}</td>
                                 <td>{{ hour.salary }}</td>
 
                                 <td>
                                     <form action="#" method="get">
                                         <input type="hidden" value="{{ hour.id }}" name="id"/>
                                         <button type="submit" value="edit" class="btn btn-primary" name="Edit">Edit</button>
-                                        <button type="submit" value="delete" class="btn btn-danger" name="Delete">Delete</button>
+                                        <button type="submit" value="delete" class="btn btn-danger hidden-xs" name="Delete">Delete</button>
                                     </form>
 
                                 </td>
@@ -95,6 +95,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Beginning</label>
+
                                 <input type="datetime-local" id="beginning" name="beginning" class="form-control"
                                        required>
                             </div>
