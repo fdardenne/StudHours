@@ -2,6 +2,8 @@
 
 {% block title %} Student Hours {% endblock title %}
 
+{% block name %} Dashboard {% endblock name%}
+
 {% block userboard_active %} active {% endblock userboard_active %}
 
 {% block content %}
@@ -31,23 +33,30 @@
 
         </div>
 
-         <!-- THIS MONTH -->
+        <!-- THIS MONTH -->
 
         <div class="row">
-            <div class="col-md-12 ">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="header">
                         <h4 class="title">This Month</h4>
                         <p class="category">Working hours this month</p>
                     </div>
                     <div class="content">
-                        <canvas id="thisMonth" width="400" height="150"></canvas>
+                        <canvas  id="thisMonth" height="150"></canvas>
 
 
                         <script>
+
+                            var x = 'bar'
+                                document.getElementById("thisMonth").height = 150;
+                            if(window.screen.availWidth < 600){
+                                var x = 'horizontalBar'
+                                document.getElementById("thisMonth").height = 700;
+                            }
                             var ctx = document.getElementById("thisMonth").getContext('2d');
                             var thisMonth = new Chart(ctx, {
-                                type: 'bar',
+                                type: x,
 
                                 data: {
                                         labels: {{day}},
@@ -70,6 +79,9 @@
                                         }
                                 }
                             });
+
+                        $(window).resize(function(){location.reload();});
+
 
 
                         </script>
@@ -98,7 +110,7 @@
 
         <!-- THIS YEAR -->
 
-        <div class="row" >
+        <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
@@ -109,9 +121,16 @@
                         <canvas id="thisYear" width="400" height="150"></canvas>
 
                         <script>
+                            var x = 'bar'
+                                document.getElementById("thisYear").height = 150;
+                            if(window.screen.availWidth < 600){
+                                var x = 'horizontalBar'
+                                document.getElementById("thisYear").height = 700;
+                            }
+
                             var ctx = document.getElementById("thisYear").getContext('2d');
                             var thisYear = new Chart(ctx, {
-                                type: 'bar',
+                                type: x,
 
                                 data: {
                                         labels: ['January', 'February', 'March', 'April',
@@ -136,6 +155,8 @@
                                         }
                                 }
                             });
+                            $(window).resize(function(){location.reload();});
+
 
 
                         </script>
