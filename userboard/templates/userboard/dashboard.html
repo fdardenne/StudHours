@@ -52,7 +52,7 @@
                                 document.getElementById("thisMonth").height = 150;
                             if(window.screen.availWidth < 600){
                                 var x = 'horizontalBar'
-                                document.getElementById("thisMonth").height = 700;
+                                document.getElementById("thisMonth").height = 650;
                             }
                             var ctx = document.getElementById("thisMonth").getContext('2d');
                             var thisMonth = new Chart(ctx, {
@@ -80,7 +80,6 @@
                                 }
                             });
 
-                        $(window).resize(function(){location.reload();});
 
 
 
@@ -155,7 +154,6 @@
                                         }
                                 }
                             });
-                            $(window).resize(function(){location.reload();});
 
 
 
