@@ -40,7 +40,7 @@ def signup(request):
 
 @login_required
 def userboard(request):
-
+    print("yep")
     # init variables
     first_day_week, day_max = calendar.monthrange(datetime.datetime.now().date().year, datetime.datetime.now().date().month)
 

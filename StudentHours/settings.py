@@ -17,6 +17,9 @@ import random
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+#SESSION_COOKIE_SECURE=True
+#SESSION_COOKIE_HTTPONLY=True
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -124,3 +127,8 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/accounts/login'
 LOGIN_REDIRECT_URL = '/viewboard'
 LOGOUT_REDIRECT_URL = '/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True

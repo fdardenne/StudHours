@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from userboard import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 handler404 = views.handler404
@@ -29,6 +31,4 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
 
 
-]
-
-
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
