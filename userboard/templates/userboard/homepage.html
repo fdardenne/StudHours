@@ -4,8 +4,10 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Studeyes</title>
-	<link rel="icon" type="image/png" href="{% static 'userboard/assets/img/favicon.ico' %}">
+	<title>Studeyes - An essential tool for students</title>
+	<meta name="description" content="Studeyes is an essential tool for students. It provides
+	useful information to track their work time for a better time and money management."/>
+	<link rel="icon" type="image/x-icons" href="{% static 'userboard/assets/img/favicon.ico' %}">
 	<link rel="stylesheet" href="{% static 'userboard/revealjs/css/reveal.min.css' %}">
 	<link rel="stylesheet" href="{% static 'userboard/revealjs/css/theme/knightlab.css' %}" id="theme">
 	<!--Add support for earlier versions of Internet Explorer -->
@@ -24,19 +26,34 @@
 			<!-- Each section element contains an individual slide -->
 			<section>
 				<h1>Studeyes</h1>
-                <h2>A essential tool for student</h2>
+                <h2>An essential tool for students</h2>
 				<a href="{% url 'login' %}">Log in</a> / <a href="{% url 'signup' %}">Sign up</a>
+				<br>
+				 <a href="#/slidetwo"> Presentations </a>
 			</section>
 
 			<section id="slidetwo">
-				<h1>Slide 2</h1>
-				<p>Hello world</p>
+				<h3>1. Configure your work</h3>
+				<img src="{% static 'userboard/assets/img/demo3.png'%}"/>
 			</section>
 
 			<section>
-				<h1>Slide 3</h1>
-				<p>Hi</p>
-				<p>Slide <a href="#/slidetwo"> 2</a>
+				<h3>2. Add your hours</h3>
+				<img src="{% static 'userboard/assets/img/demo2.png'%}"/>
+			</section>
+
+
+			<section>
+				<h3>3. And track your money / time !</h3>
+				<img src="{% static 'userboard/assets/img/demo.png'%}"/>
+			</section>
+
+
+
+
+			<section>
+				<h3> Compatible with your smartphone </h3>
+				<img  height="600" src="{% static 'userboard/assets/img/demo4.png'%}"/>
 			</section>
 
 			</div>
@@ -45,7 +62,6 @@
 	<script src="{% static 'userboard/revealjs/js/reveal.min.js' %}"></script>
 
 	<script>
-		// Required, even if empty.
 		Reveal.initialize({
 		});
 	</script>

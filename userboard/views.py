@@ -40,7 +40,6 @@ def signup(request):
 
 @login_required
 def userboard(request):
-    print("yep")
     # init variables
     first_day_week, day_max = calendar.monthrange(datetime.datetime.now().date().year, datetime.datetime.now().date().month)
 
@@ -87,8 +86,8 @@ def userboard(request):
 
 
         moneys = [0] * day_max
-        total_money = 0
-        total_hours = 0
+        month_total_money = 0
+        month_total_hours = 0
 
         money_per_month = [0]*12
         total_money_year = 0
@@ -99,8 +98,8 @@ def userboard(request):
             time_worked = float((workhour.end_date - workhour.beginning_date - workhour.pause_duration).seconds) / 3600
             money_earned = float(round(workhour.salary_earned, 2))
 
-            total_hours += time_worked
-            total_money += money_earned
+            month_total_hours += time_worked
+            month_total_money += money_earned
             moneys[day-1] += money_earned
 
 
@@ -131,8 +130,11 @@ def userboard(request):
             'money': moneys,
             'color': color,
             'border_color': border_color,
-            'total_money': round(total_money,2),
-            'total_hours': round(total_hours,2),
+            'total_money': round(month_total_money,2),
+            'total_hours': round(month_total_hours,2),
+            'year_total_money': round(month_total_money, 2),
+            'year_total_hours': round(month_total_hours, 2),
+
             'months_money': money_per_month
         }
 
