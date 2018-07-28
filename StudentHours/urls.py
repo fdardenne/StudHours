@@ -25,7 +25,7 @@ handler500 = views.handler500
 
 urlpatterns = [
     path('', views.homepage, name="homepage"),
-    path('admin/', admin.site.urls),
+    path('adminManagement/', admin.site.urls),
     path('viewboard/', include('userboard.urls')),
     path('accounts/signup/', views.signup, name="signup"),
     path('accounts/', include('django.contrib.auth.urls')),
