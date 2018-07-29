@@ -42,6 +42,8 @@
 
     	<div class="sidebar-wrapper">
             <div class="logo">
+                <span>
+
                 <a href="{% url 'homepage' %}" class="simple-text">
                     Studeyes
                 </a>
@@ -71,12 +73,6 @@
                         <p>My Work</p>
                     </a>
                 </li>
-                <li>
-                    <a href="notifications.html">
-                        <i class="pe-7s-bell"></i>
-                        <p>Notifications</p>
-                    </a>
-                </li>
             </ul>
     	</div>
     </div>
@@ -91,7 +87,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+
                     <a class="navbar-brand" href="#">{% block name %} {% endblock name%}</a>
+
                 </div>
                 <div class="collapse navbar-collapse" id="navigation-example-2">
 

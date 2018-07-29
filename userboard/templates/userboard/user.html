@@ -16,9 +16,16 @@
                 <div class="card">
                     <div class="header">
                         <h4 class="title">Edit Profile</h4>
+                        {% if flag %}
+                            <div class="alert alert-success">
+                                <span><b>modified with success !</b> </span>
+                            </div>
+
+                            {% endif %}
                     </div>
                     <div class="content">
-                        <form>
+                        <form id="form-group" method="post">
+                            {% csrf_token %}
                             <div class="row">
 
                                 <div class="col-md-3">
@@ -44,7 +51,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>First Name</label>
-                                        <input type="text" class="form-control" placeholder="First Name" value="{{ first_name }}">
+                                        <input type="text" name="fname" class="form-control" placeholder="First Name" value="{{ first_name }}">
                                     </div>
                                 </div>
                             </div>
@@ -53,7 +60,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Last Name</label>
-                                        <input type="text" class="form-control" placeholder="Last Name" value="{{ last_name }}">
+                                        <input type="text" name="lname" class="form-control" placeholder="Last Name" value="{{ last_name }}">
                                     </div>
                                 </div>
                             </div>

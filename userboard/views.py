@@ -147,13 +147,27 @@ def userboard(request):
 @login_required
 def profile(request):
     user = request.user
+    isModified = False
+
+
+
+    if request.method == 'POST':
+        user.last_name = request.POST.get('lname')
+        user.first_name = request.POST.get('fname')
+        user.save()
+        print("hey")
+        isModified = True
+
     information = {
         'username': user.username,
         'email': user.email,
         'first_name': user.first_name,
         'last_name': user.last_name,
+        'flag': isModified,
     }
+
     return render(request, 'userboard/user.html', information)
+
 
 
 @login_required
