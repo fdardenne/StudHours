@@ -90,8 +90,8 @@ def userboard(request):
         month_total_hours = 0
 
         money_per_month = [0]*12
-        total_money_year = 0
-        total_hours_year = 0
+        year_total_money = 0
+        year_total_hours = 0
 
         for workhour in workhour_month_list:
             day = workhour.beginning_date.date().day
@@ -115,8 +115,8 @@ def userboard(request):
 
                 temps_total_money += money_earned
 
-                total_money_year += money_earned
-                total_hours_year += time_worked
+                year_total_money += money_earned
+                year_total_hours += time_worked
 
             money_per_month[month-1] = temps_total_money
             temps_total_money = 0
@@ -132,8 +132,8 @@ def userboard(request):
             'border_color': border_color,
             'total_money': round(month_total_money,2),
             'total_hours': round(month_total_hours,2),
-            'year_total_money': round(month_total_money, 2),
-            'year_total_hours': round(month_total_hours, 2),
+            'year_total_money': round(year_total_money, 2),
+            'year_total_hours': round(year_total_hours, 2),
 
             'months_money': money_per_month
         }
@@ -155,7 +155,6 @@ def profile(request):
         user.last_name = request.POST.get('lname')
         user.first_name = request.POST.get('fname')
         user.save()
-        print("hey")
         isModified = True
 
     information = {
@@ -212,7 +211,7 @@ def work(request):
 
 @login_required
 def hour(request):
-    # TODO: Delete button
+    # TODO: EDIT BUTTON
     user = request.user
     try:
         work = Work.objects.get(user=user)

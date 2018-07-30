@@ -55,12 +55,15 @@
                                 <td>{{ hour.salary }}</td>
 
                                 <td>
-                                    <form action="#" method="get">
-                                        <input type="hidden" value="{{ hour.id }}" name="id"/>
-                                        <button type="submit" value="edit" class="btn btn-primary" name="Edit">Edit</button>
-                                        <button type="submit" value="delete" class="btn btn-danger hidden-xs" name="Delete">Delete</button>
-                                    </form>
 
+                                    <button type="submit" data-toggle="modal" data-target="#modal_{{hour.id}}" class="btn btn-primary" name="Edit">More</button>
+
+                                        <button type="submit" form="form1" value="delete" class="btn btn-danger hidden-xs" name="Delete">Delete</button>
+
+
+                                    <form id="form1" action="#" method="get">
+                                        <input type="hidden" value="{{ hour.id }}" name="id"/>
+                                    </form>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -79,7 +82,7 @@
 
 {% block endbody %}
 
-<!-- Modal -->
+<!-- Modal ADD -->
 {% if flag != "error" %}
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -145,5 +148,77 @@
     </div>
 </div>
 {% endif %}
+
+{% for hour in workhours_list %}
+    <div id="modal_{{hour.id}}" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                    <label>Beginning</label>
+                    <input disabled type="text" class="form-control"  value="{{ hour.beginning_date }}">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                    <label>End</label>
+                    <input disabled type="text" class="form-control"  value="{{ hour.end_date }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                    <label>Pause</label>
+                    <input disabled type="text" class="form-control" value="{{ hour.pause }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                    <label>Salary</label>
+                    <input disabled type="text" class="form-control" value="{{ hour.salary }}">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                    <label>Total time</label>
+                    <input disabled type="text" class="form-control" value="{{ hour.time }}">
+                        </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <form  action="#" method="get">
+                    <input type="hidden" value="{{ hour.id }}" name="id"/>
+                    <button type="submit" value="delete" class="btn btn-danger" name="Delete">Delete</button>
+                </form>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endfor %}
 
 {% endblock endbody %}
