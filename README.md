@@ -1,7 +1,6 @@
 # Studeyes
 A webapp written with django. 
 Studeyes provides useful information to track students work time for a better time and money management.
-Demo: https://studeyes.com
 
 # Configure your work
 <img src=https://i.imgur.com/RhOic43.png/>
